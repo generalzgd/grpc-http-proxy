@@ -1,0 +1,28 @@
+@startuml
+title grpc-http协议转换网关
+'left to right direction
+'top to bottom direction
+:用户1: as c1
+:用户2: as c2
+(域名均衡负载) as lb
+
+rectangle ServersSide {
+    node "grpc-http网关" as gw
+    node "inner server1" as s1
+    node "inner server2" as s2
+}
+
+c1 <..> gw: restful Api(直接访问)
+c2 <..> gw: restful Api(直接访问)
+c1 <..> lb: restful Api(间接访问)
+c2 <..> lb: restful Api(间接访问)
+lb <..> gw
+
+gw <..> s1: grpc
+gw <..> s2: grpc
+s1 <..> s2: grpc(服务间相互访问)
+
+note "1. 支持客户端http/https协议(restful)\n2. 支持双向数据发送\n3. 支持路由转发给不同的后端服务\n4. grpc转发支持服务发现和均衡负载" as n1
+gw .. n1
+
+@enduml

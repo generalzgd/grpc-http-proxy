@@ -1,0 +1,27 @@
+@startuml
+title grpc-http协议转换代理
+
+rectangle Node1 {
+    node "AppServer1" as c1
+    node "grpc-http代理" as gw1
+}
+rectangle Node2 {
+    node "AppServer2" as c2
+    node "grpc-http代理" as gw2
+}
+
+node "inner server1" as s1
+node "inner server2" as s2
+
+c1 <..> gw1: restful Api\n(localhost访问)
+c2 <..> gw2: restful Api\n(localhost访问)
+
+gw1 <..> s1: grpc
+gw1 <..> s2: grpc
+gw2 <..> s1: grpc
+gw2 <..> s2: grpc
+s1 <..> s2: grpc
+
+note "1. 支持客户端http/https协议(restful)\n2. 支持双向数据发送\n3. 支持路由转发给不同的后端服务\n4. grpc转发支持服务发现和均衡负载" as n1
+gw1 .. n1
+@enduml

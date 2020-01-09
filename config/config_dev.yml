@@ -1,0 +1,21 @@
+mailaddr: ["general_zgd@163.com"]
+localip: ""
+name: Grpc-Http(RestFul)-Proxy
+ver: 1.0.0
+memo:
+proxy:
+  secure: false
+  buffersize: 4096
+  maxconn: 1024
+  idletimeout: 10s
+  port: 20015
+consul:
+  address: http://127.0.0.1:8500
+  token:
+  healthport: 0
+  healthtype: tcp
+endpoint:
+  innersvr:
+    name: innersvr
+    address: consul:///innersvr
+    secure: false
